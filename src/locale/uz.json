@@ -1,0 +1,176 @@
+{
+  "username": "Foydalanuvchi nomi",
+  "password": "Parol",
+  "signIn": "Kirish",
+  "showing {start}-{end} of {total} total items": "Jami {total} ta elementdan {start}-{end} tasi ko'rsatilmoqda",
+  "and": "va",
+  "phone number should match format: {value}": "Telefon raqami quyidagi formatga mos kelishi kerak: {value}",
+  "address": "Manzil",
+  "available": "Mavjud",
+  "not_available": "Mavjud emas",
+  "edit": "Tahrirlash",
+  "save": "Saqlash",
+  "delete": "O'chirish",
+  "input_errors": {
+    "{name} is required": "{name} bo‘sh bo‘lishi mumkin emas"
+  },
+  "sidebar": {
+    "dashboard": "Boshqaruv paneli",
+    "information": "Ma'lumotlar",
+    "products": "Mahsulotlar",
+    "users": "Foydalanuvchilar",
+    "crm": "CRM",
+    "crm-deal": "Buyurtmalar",
+    "crm-deal-kanban": "Kanban",
+    "crm-deal-list": "Ro'yxat",
+    "crm-deal-calendar": "Kalendar",
+    "crm-deal-create": "Bitimlar qo'shish",
+    "crm-deal-update": "Bitimlar tahrirlash",
+    "regions": "Viloyatlar va shaharlar",
+    "districts": "Viloyatlar va shaharlar",
+    "contacts": "Kontaktlar",
+    "clients": "Mijozlar",
+    "suppliers": "Ta'minotchilar",
+    "delivery-man": "Yetkazib beruvchi",
+    "crm-deal-detail": "Bitimlar ma'lumotlari",
+    "crm-deal-tabs": "Bitimlar"
+  },
+  "mode": {
+    "light": "Yorqin",
+    "dark": "Qorong'u",
+    "auto": "Tizim"
+  },
+  "add": "{name} qo'shish",
+  "search": "{name} qidirish",
+  "cancel": "Bekor qilish",
+  "updating": "Tahrirlanmoqda...",
+  "updated": "Tahrirlandi",
+  "update_error": "Tahrirlashda xatolik",
+  "products": {
+    "name": "Mahsulot nomi",
+    "price": "Narxi",
+    "body_summa": "Tannarx",
+    "edit": "Mahsulotni tahrirlash",
+    "add": "Mahsulot qo'shish",
+    "adding": "Mahsulot yuklanmoqda...",
+    "added": "Mahsulot muvaffaqiyatli yuklandi",
+    "added_error": "Mahsulot yuklashda xatolik",
+    "quantity": "Miqdori",
+    "summa": "Summa",
+    "total_summa": "Jami summa"
+  },
+  "user": {
+    "fullName": "Foydalanuvchi ismi",
+    "edit": "Foydalanuvchini tahrirlash",
+    "add": "Foydalanuvchi qo'shish",
+    "adding": "Foydalanuvchi yuklanmoqda...",
+    "added": "Foydalanuvchi muvaffaqiyatli yuklandi",
+    "added_error": "Foydalanuvchi yuklashda xatolik",
+    "username": "Foydalanuvchi nomi",
+    "salary": "Maosh",
+    "password": "Parol",
+    "sales_kpi": "KPI"
+  },
+  "regions": {
+    "name": "Viloyat nomi",
+    "edit": "Viloyatni tahrirlash",
+    "add": "Viloyat qo'shish",
+    "adding": "Viloyat yuklanmoqda...",
+    "added": "Viloyat muvaffaqiyatli yuklandi",
+    "added_error": "Viloyat yuklashda xatolik"
+  },
+  "districts": {
+    "name": "Shahar(tuman) nomi",
+    "edit": "Shaharni tahrirlash",
+    "add": "Shahar(tuman) qo'shish",
+    "adding": "Shahar(tuman) yuklanmoqda...",
+    "added": "Shahar(tuman) muvaffaqiyatli yuklandi",
+    "added_error": "Shahar(tuman) yuklashda xatolik"
+  },
+  "clients": {
+    "name": "Mijoz nomi",
+    "edit": "Mijozni tahrirlash",
+    "add": "Mijoz qo'shish",
+    "adding": "Mijoz yuklanmoqda...",
+    "added": "Mijoz muvaffaqiyatli yuklandi",
+    "added_error": "Mijoz yuklashda xatolik",
+    "phone": "Telefon raqami",
+    "address": "Manzil"
+  },
+  "suppliers": {
+    "name": "Ta'minotchi nomi",
+    "edit": "Ta'minotchini tahrirlash",
+    "add": "Ta'minotchi qo'shish",
+    "adding": "Ta'minotchi yuklanmoqda...",
+    "added": "Ta'minotchi muvaffaqiyatli yuklandi",
+    "added_error": "Ta'minotchi yuklashda xatolik",
+    "phone": "Telefon raqami",
+    "address": "Manzil"
+  },
+  "delivery-man": {
+    "name": "Yetkazib beruvchi nomi",
+    "edit": "Yetkazib beruvchini tahrirlash",
+    "add": "Yetkazib beruvchi qo'shish",
+    "adding": "Yetkazib beruvchi yuklanmoqda...",
+    "added": "Yetkazib beruvchi muvaffaqiyatli yuklandi",
+    "added_error": "Yetkazib beruvchi yuklashda xatolik",
+    "phone": "Telefon raqami",
+    "salary_type": "Maosh turi",
+    "none": "Yo'q",
+    "salary": "Maosh",
+    "percent": "Foiz",
+    "summa": "Summa",
+    "werehouse": "Ombor",
+    "password": "Parol"
+  },
+  "crm": {
+    "general": "Umumiy ma'lumotlar",
+    "products": "Mahsulotlar",
+    "deal-title": "Bitim {name}",
+    "about-lead": "Bitim haqida",
+    "tags": "Taglar",
+    "add-tag": "Tag qo'shish",
+    "stage": "Bitim holati",
+    "contact": "Kontakt",
+    "about_delivery": "Yetkazib berish ma'lumotlari",
+    "delivery-date": "Yetkazib berish muddati",
+    "delivery-region": "Yetkazib berish manzili",
+    "delivery-address": "Aniq manzil",
+    "location": "Joylashuv",
+    "user": "Foydalanuvchi (Biriktirilgan hodim)",
+    "user_about": "Foydalanuvchi haqida"
+  },
+  "deals": {
+    "deal-history": "Bitim tarixi",
+    "history": {
+      "ACTION": "Amallar",
+      "COMMENT": "Izohlar",
+      "EDIT": "Tahrirlash",
+      "NOTE": "Ma'lumotlar",
+      "STAGE_CHANGE": "Bitim holati",
+      "TASK": "Vazifalar"
+    },
+    "actions": {
+      "create": "Bitim qo'shildi",
+      "update": "Bitim tahrirlandi",
+      "delete": "Bitim o'chirildi"
+    },
+    "task": {
+      "write task": "Vazifa haqida ma'lumot kiriting",
+      "save_task": "Vazifani saqlash",
+      "due_date": "Vazifa muddati",
+      "additional_warnings": "Qo'shimcha ogohlantirishlar",
+      "pin": "Pin"
+    },
+    "comment": {
+      "write comment": "Izohni kiriting",
+      "save_comment": "Izohni saqlash",
+      "pin": "Pin"
+    },
+    "note": {
+      "write note": "Ma'lumot kiriting",
+      "save_note": "Ma'lumotni saqlash",
+      "pin": "Pin"
+    }
+  }
+}

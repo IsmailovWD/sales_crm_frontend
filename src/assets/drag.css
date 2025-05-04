@@ -1,0 +1,18 @@
+.column-drag-handle {
+  cursor: move;
+  padding: 5px;
+}
+.drop-preview {
+  background-color: var(--menu-hover-bg);
+  margin: 5px;
+  border-radius: 10px;
+}
+.card-ghost {
+  /* transition: transform 0.3s ease; */
+  /* transform: rotateZ(5deg); */
+}
+
+.card-ghost-drop {
+  /* transition: transform 0.3s ease-in-out; */
+  /* transform: rotateZ(0deg); */
+}

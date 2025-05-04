@@ -1,0 +1,140 @@
+{
+  "username": "Username",
+  "password": "Password",
+  "signIn": "Sign In",
+  "showing {start}-{end} of {total} total items": "Showing {start}-{end} of {total} total items",
+  "and": "and",
+  "phone number should match format: {value}": "Phone number should match format: {value}",
+  "address": "Address",
+  "available": "available",
+  "not_available": "not available",
+  "edit": "Edit",
+  "save": "Save",
+  "delete": "Delete",
+  "input_errors": {
+    "{name} is required": "{name} is required"
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "information": "Information",
+    "products": "Products",
+    "users": "Users",
+    "crm": "CRM",
+    "crm-deal": "Deals",
+    "crm-deal-kanban": "Kanban",
+    "crm-deal-list": "List",
+    "crm-deal-calendar": "Calendar",
+    "crm-deal-create": "Create lead",
+    "crm-deal-update": "Update lead",
+    "regions": "Regions and districts",
+    "districts": "Regions and districts",
+    "contacts": "Contacts",
+    "clients": "Clients",
+    "suppliers": "Suppliers",
+    "delivery-man": "Delivery man",
+    "crm-deal-detail": "Deals details",
+    "crm-deal-tabs": "Deals"
+  },
+  "mode": {
+    "light": "Light",
+    "dark": "Dark",
+    "auto": "System"
+  },
+  "add": "Add {name}",
+  "search": "Search {name}",
+  "cancel": "Cancel",
+  "updating": "Updating",
+  "updated": "Updated",
+  "update_error": "Update error",
+  "products": {
+    "name": "Product name",
+    "price": "Price",
+    "body_summa": "Cost price",
+    "edit": "Edit product",
+    "add": "Add product",
+    "adding": "Adding product",
+    "added": "Product added",
+    "added_error": "Product add error",
+    "quantity": "Quantity",
+    "summa": "Summa",
+    "total_summa": "Total summa"
+  },
+  "regions": {
+    "name": "Region name",
+    "edit": "Edit region",
+    "add": "Add region",
+    "adding": "Adding region",
+    "added": "Region added",
+    "added_error": "Region add error"
+  },
+  "districts": {
+    "name": "District name",
+    "edit": "Edit region",
+    "add": "Add region",
+    "adding": "Adding region",
+    "added": "District added",
+    "added_error": "District add error"
+  },
+  "clients": {
+    "name": "Client name",
+    "edit": "Edit client",
+    "add": "Add client",
+    "adding": "Adding client",
+    "added": "Client added",
+    "added_error": "Client add error",
+    "phone": "Phone number",
+    "address": "Address"
+  },
+  "suppliers": {
+    "name": "Supplier name",
+    "edit": "Edit supplier",
+    "add": "Add supplier",
+    "adding": "Adding supplier",
+    "added": "Supplier added",
+    "added_error": "Supplier add error",
+    "phone": "Phone number",
+    "address": "Address"
+  },
+  "delivery-man": {
+    "name": "Delivery name",
+    "edit": "Edit delivery",
+    "add": "Add delivery",
+    "adding": "Adding delivery",
+    "added": "Delivery added",
+    "added_error": "Delivery add error",
+    "phone": "Phone number",
+    "salary_type": "Salary type",
+    "none": "None",
+    "salary": "Salary",
+    "percent": "Percent",
+    "summa": "Summa",
+    "werehouse": "Werehouse",
+    "password": "Password"
+  },
+  "crm": {
+    "general": "General",
+    "products": "Products",
+    "deal-title": "Deal {name}",
+    "about-lead": "About lead",
+    "tags": "Tags",
+    "add-tag": "Add tag",
+    "stages": "Stages",
+    "contact": "Contact"
+  },
+  "deals": {
+    "deal-history": "Deal history",
+    "history": {
+      "ACTION": "Action",
+      "COMMENT": "Comment",
+      "EDIT": "Edit",
+      "NOTE": "Note",
+      "STAGE_CHANGE": "Stage change",
+      "TASK": "Task"
+    },
+    "actions": {
+      "create": "Deals create",
+      "update": "Deals update",
+      "delete": "Deals delete"
+    }
+  }
+}
