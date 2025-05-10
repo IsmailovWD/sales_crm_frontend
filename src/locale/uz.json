@@ -133,9 +133,9 @@
     "stage": "Bitim holati",
     "contact": "Kontakt",
     "about_delivery": "Yetkazib berish ma'lumotlari",
-    "delivery-date": "Yetkazib berish muddati",
+    "delivery_date": "Yetkazib berish muddati",
     "delivery-region": "Yetkazib berish manzili",
-    "delivery-address": "Aniq manzil",
+    "address": "Aniq manzil",
     "location": "Joylashuv",
     "user": "Foydalanuvchi (Biriktirilgan hodim)",
     "user_about": "Foydalanuvchi haqida"

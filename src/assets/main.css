@@ -17,6 +17,8 @@
   /*  */
   --timeline-content-bg: #e5e5e551;
   --timeline-line-color: rgb(239, 239, 245);
+  /*  */
+  --kanban-card-bg: #fff;
 }
 html.dark {
   --navbar-color: #fff;
@@ -27,6 +29,8 @@ html.dark {
   /*  */
   --timeline-content-bg: #1b1b1b78;
   --timeline-line-color: #3f3f44;
+  /*  */
+  --kanban-card-bg: rgb(24, 24, 28);
 }
 /* html.dark body {
   background-color: rgb(16, 16, 20); 
@@ -114,7 +118,7 @@ html.dark
 }
 .kanban-card {
   padding: 10px;
-  background-color: #fff;
+  background-color: var(--kanban-card-bg);
   margin: 3px 0;
   border-radius: 10px;
   transition: background-color 0.3s ease-in-out;
@@ -124,7 +128,7 @@ html.dark
   border-color: #fff;
 }
 html.dark .kanban-card {
-  background-color: rgb(24, 24, 28);
+  /* background-color: rgb(24, 24, 28); */
   border-color: rgba(255, 255, 255, 0.09);
   color: rgba(255, 255, 255, 0.9);
 }

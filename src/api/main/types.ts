@@ -90,6 +90,8 @@ export interface DealAttr {
   created_at?: number;
   updated_at?: number;
   location: string[] | number[];
+  //
+  is_drag?: boolean;
 }
 //
 export enum DealActivityType {
@@ -136,7 +138,7 @@ export interface DealActivityAttr {
   metadata:
     | TaskMetadataAttr
     | StageChangeMetadataAttr
-    | EditMetadataAttr
+    | EditMetadataAttr[]
     | ActionMetadataAttr
     | NoteMetadataAttr
     | CommentMetadataAttr;

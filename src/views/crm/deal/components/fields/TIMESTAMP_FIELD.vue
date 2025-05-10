@@ -13,7 +13,13 @@
     />
     <div @click="changeEdit" v-else>
       <n-text :style="props.textStyle" v-if="props.model[props.keyValue]">
-        {{ props.model[props.keyValue] }}
+        {{
+          new Date(props.model[props.keyValue]).toLocaleDateString(locale, {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+          })
+        }}
       </n-text>
       <span v-else>-</span>
     </div>
@@ -25,7 +31,9 @@ import { useEventBus } from "@/eventBus";
 import { NDatePicker, NText, type InputInst } from "naive-ui";
 import { ref, nextTick, type CSSProperties } from "vue";
 import type { FormRules } from ".";
+import { useI18n } from "vue-i18n";
 
+const { t, locale } = useI18n();
 const eventBus = useEventBus();
 const edit = ref(false);
 const inpRef = ref<InputInst>();

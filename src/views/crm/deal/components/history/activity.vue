@@ -50,7 +50,7 @@
               minute: "2-digit",
             })
           }}</n-text>
-          <n-text>{{ props.item.user?.username }}</n-text>
+          <n-text>{{ props.item.user?.fullName }}</n-text>
         </div>
         <div class="body">
           <div
@@ -113,7 +113,31 @@
                 : ""
             }}</n-text>
           </div>
-          <div v-if="props.item.type === DealActivityType.EDIT"></div>
+          <div v-if="props.item.type === DealActivityType.NOTE">
+            <n-text>{{
+              "note" in props.item.metadata ? props.item.metadata?.note : ""
+            }}</n-text>
+          </div>
+          <div v-if="props.item.type === DealActivityType.EDIT">
+            <div
+              v-if="Array.isArray(props.item.metadata)"
+              v-for="(meta, i) in props.item.metadata"
+              :key="i"
+            >
+              <n-text>{{ t(`crm.${meta.field}`) }}</n-text>
+              <div style="display: flex; align-items: center; gap: 2px">
+                <n-tag size="small" round type="default">{{
+                  meta.old_value
+                }}</n-tag>
+                <n-icon size="small">
+                  <CaretRight24Filled></CaretRight24Filled>
+                </n-icon>
+                <n-tag size="small" round type="success">{{
+                  meta.new_value
+                }}</n-tag>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </n-card>

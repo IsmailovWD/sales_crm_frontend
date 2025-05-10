@@ -17,7 +17,7 @@
       </div>
       <n-divider style="margin: 10px 0"></n-divider>
       <n-form-item
-        :label="t('crm.delivery-date')"
+        :label="t('crm.delivery_date')"
         path="title"
         :theme-overrides="{
           labelPaddingVertical: '0px',
@@ -48,7 +48,7 @@
         ></REGION_FIELD>
       </n-form-item>
       <n-form-item
-        :label="t('crm.delivery-address')"
+        :label="t('crm.address')"
         path="title"
         :theme-overrides="{
           labelPaddingVertical: '0px',
@@ -57,7 +57,7 @@
       >
         <TEXT_FIELD
           :is-edit="isEdit"
-          :label="t('crm.delivery-address')"
+          :label="t('crm.address')"
           size="medium"
           :model="props.formValue"
           :key-value="'address'"

@@ -76,12 +76,7 @@ onMounted(() => {
     background-repeat: no-repeat; 
     background-position: center; 
     background-size: cover; 
-    background-attachment: 
-    fixed; -webkit-filter: blur(3px);
-    -moz-filter: blur(3px);
-    -o-filter: blur(3px);
-    -ms-filter: blur(3px);
-    filter: blur(3px);
+    
     width: 100%;
     height: 100vh;
     transition: all 0.35s ease-in-out;

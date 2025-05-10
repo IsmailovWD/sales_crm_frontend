@@ -123,13 +123,13 @@
       <Container
         ref="el"
         group-name="col"
-        drag-class="card-ghost"
+        :drag-class="`card-ghost`"
         drop-class="card-ghost-drop"
         @drop="(e: any) => onCardDrop(e)"
         drag-handle-selector=".cards-drag-handle"
         :get-child-payload="getCardPayload()"
-        @drag-start="drag = true"
-        @drag-end="drag = false"
+        @drag-start="dragStart"
+        @drag-end="dragEnd"
         style="width: 100%; height: calc(100% - 40px); overflow: auto"
         :drop-placeholder="{
           className: 'drop-preview',
@@ -139,7 +139,9 @@
       >
         <Draggable
           v-for="(item, index) in props.item.deals"
-          class="cards-drag-handle"
+          :class="`cards-drag-handle${
+            selectedIds.includes(item.id) ? ' hidden' : ''
+          }`"
           :key="index"
         >
           <cards-vue :item="item" :index="index"></cards-vue>
@@ -194,6 +196,7 @@ type Props = {
 const emits = defineEmits({
   drop: (e: any) => true,
 });
+const selectedIds = ref<number[]>([]);
 const el = useTemplateRef<HTMLElement>("el");
 const drag = ref(false);
 const eventBus = useEventBus();
@@ -265,7 +268,11 @@ const onCardDrop = (event: any) => {
 };
 const getCardPayload = () => {
   return (index: number) => {
-    return props.item.deals[index];
+    let arr = props.item.deals.filter((i) => i.is_drag);
+    if (!props.item.deals[index].is_drag) {
+      arr = [props.item.deals[index]];
+    }
+    return arr;
   };
 };
 const getAll = () => {
@@ -278,6 +285,18 @@ const getAll = () => {
     .finally(() => {
       loading.value = false;
     });
+};
+const dragStart = (e: {
+  isSource: boolean;
+  payload: DealStagesAttr["deals"];
+  willAcceptDrop: boolean;
+}) => {
+  selectedIds.value = e.payload.map((i) => i.id);
+  drag.value = true;
+};
+const dragEnd = () => {
+  drag.value = false;
+  selectedIds.value = [];
 };
 watch(
   () => bottom.value,

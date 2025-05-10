@@ -8,11 +8,13 @@
   border-radius: 10px;
 }
 .card-ghost {
-  /* transition: transform 0.3s ease; */
-  /* transform: rotateZ(5deg); */
+  /* transition: transform 0.3s ease;
+  transform: rotateZ(5deg); */
 }
-
 .card-ghost-drop {
-  /* transition: transform 0.3s ease-in-out; */
-  /* transform: rotateZ(0deg); */
+  /* transition: transform 0.3s ease-in-out;
+  transform: rotateZ(90deg); */
+}
+.cards-drag-handle.hidden {
+  visibility: hidden;
 }

@@ -29,6 +29,7 @@
       </div>
     </div>
     <div class="kanban-card-actions">
+      <input type="checkbox" v-model="props.item.is_drag" @dblclick.stop />
       <n-badge color="#353535" :show-zero="true" :value="0" />
     </div>
   </div>
