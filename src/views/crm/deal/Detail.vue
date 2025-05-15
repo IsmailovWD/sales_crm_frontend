@@ -70,7 +70,7 @@ const data = ref<
   data: {
     title: null,
     contact_id: null,
-    deal_stage_id: null,
+    stage_id: null,
     summa: 0,
     tags: [],
     contact: {
@@ -105,7 +105,7 @@ const getData = () => {
     ]).then(([crmStagesList, crmLead]) => {
       data.value.data = crmLead;
       data.value.type = "update";
-      data.value.data.deal_stage_id =
+      data.value.data.stage_id =
         crmStagesList.find((item) => item.key == "new")?.id || null;
       loading.value = false;
     });
@@ -115,7 +115,7 @@ const getData = () => {
       dataStore.getData("productListWithBalance"),
     ]).then(([crmStagesList]) => {
       data.value.type = "create";
-      data.value.data.deal_stage_id =
+      data.value.data.stage_id =
         crmStagesList.find((item) => item.key == "new")?.id || null;
       loading.value = false;
     });

@@ -71,7 +71,7 @@ export interface DealOrderAttr {
 export interface DealAttr {
   id: number;
   title: string | null;
-  deal_stage_id: number | null;
+  stage_id: number | null;
   contact_id: number | null;
   summa: number;
   contact: Omit<ContactsAttr, "id">;
@@ -91,7 +91,9 @@ export interface DealAttr {
   updated_at?: number;
   location: string[] | number[];
   //
-  is_drag?: boolean;
+  is_checked?: boolean;
+  // relations
+  stage?: DealStagesAttr;
 }
 //
 export enum DealActivityType {

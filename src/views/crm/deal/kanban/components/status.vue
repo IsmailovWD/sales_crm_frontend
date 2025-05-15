@@ -86,6 +86,28 @@
                 <ArrowMove24Filled></ArrowMove24Filled>
               </n-icon>
             </div>
+            <div>
+              <n-dropdown
+                :options="optionsDropdown"
+                :trigger="'click'"
+                :placement="'right-start'"
+                :disabled="selectedIds.length == 0"
+                @select="handleSelect"
+              >
+                <div
+                  style="
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <n-icon size="18">
+                    <MoreHorizontal24Filled></MoreHorizontal24Filled>
+                  </n-icon>
+                </div>
+              </n-dropdown>
+            </div>
           </div>
         </div>
         <div
@@ -120,43 +142,40 @@
           />
         </div>
       </n-card>
-      <Container
+      <div
         ref="el"
-        group-name="col"
-        :drag-class="`card-ghost`"
-        drop-class="card-ghost-drop"
-        @drop="(e: any) => onCardDrop(e)"
-        drag-handle-selector=".cards-drag-handle"
-        :get-child-payload="getCardPayload()"
-        @drag-start="dragStart"
-        @drag-end="dragEnd"
-        style="width: 100%; height: calc(100% - 40px); overflow: auto"
-        :drop-placeholder="{
-          className: 'drop-preview',
-          animationDuration: '150',
-          showOnTop: true,
-        }"
+        style="
+          width: 100%;
+          height: calc(100% - 40px);
+          overflow: auto;
+          position: relative;
+        "
       >
-        <Draggable
-          v-for="(item, index) in props.item.deals"
-          :class="`cards-drag-handle${
-            selectedIds.includes(item.id) ? ' hidden' : ''
-          }`"
-          :key="index"
-        >
-          <cards-vue :item="item" :index="index"></cards-vue>
-        </Draggable>
-        <Transition name="spin">
-          <n-spin v-if="loading" stroke="#fff">
-            <div style="height: 60px"></div>
-          </n-spin>
-        </Transition>
-      </Container>
+        <TransitionGroup name="deals" tag="div">
+          <cards-vue
+            v-for="(item, index) in props.item.deals"
+            :key="item.id"
+            :item="item"
+            :index="index"
+            :stage-list="props.stageList"
+            @change-stage="(...args) => emit('changeStage', ...args)"
+          ></cards-vue>
+        </TransitionGroup>
+      </div>
+      <Transition name="spin">
+        <n-spin v-if="loading" stroke="#fff">
+          <div style="height: 60px"></div>
+        </n-spin>
+      </Transition>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import { ArrowMove24Filled } from "@vicons/fluent";
+import {
+  ArrowHookUpRight24Filled,
+  ArrowMove24Filled,
+  MoreHorizontal24Filled,
+} from "@vicons/fluent";
 import {
   NCard,
   NIcon,
@@ -167,9 +186,12 @@ import {
   type InputInst,
   NColorPicker,
   NSpin,
+  type DropdownOption,
+  NDropdown,
 } from "naive-ui";
 import {
   computed,
+  h,
   onMounted,
   onUnmounted,
   ref,
@@ -185,34 +207,39 @@ import { useI18n } from "vue-i18n";
 import { Pencil } from "@vicons/ionicons5";
 import { useEventBus } from "@/eventBus";
 import cardsVue from "./cards.vue";
-import { Container, Draggable } from "vue3-smooth-dnd";
 import { useScroll } from "@vueuse/core";
 import { dealsApi } from "@/api/main/actions/dealsApi";
+import type { DealStagesAttr as s } from "@/api/main/types";
 
 type Props = {
   item: DealStagesAttr;
   index: number;
+  stageList: s[];
 };
-const emits = defineEmits({
-  drop: (e: any) => true,
+const props = defineProps<Props>();
+const emit = defineEmits({
+  changeStage: (ids: number[], newStageId: number, oldStageId: number) => true,
 });
-const selectedIds = ref<number[]>([]);
+
+const optionsDropdown = ref<DropdownOption[]>([]);
+const selectedIds = computed<number[]>(() =>
+  props.item.deals.filter((d) => d.is_checked).map((d) => d.id)
+);
 const el = useTemplateRef<HTMLElement>("el");
-const drag = ref(false);
 const eventBus = useEventBus();
-let msgReactive: MessageReactive | null = null;
 const message = useMessage();
 const inpRef = ref<InputInst>();
 const colorRef = ref();
 const { t } = useI18n();
-const props = defineProps<Props>();
 const isEditName = ref(false);
 const isScroll = ref(false);
 const scrollLeft = ref(0);
 const { arrivedState } = useScroll(el);
 const { bottom } = toRefs(arrivedState);
 const loading = ref(false);
+
 const changeName = () => {
+  let msgReactive: MessageReactive | null = null;
   let name = inpRef.value?.inputElRef?.value,
     color = colorRef.value?.mergedValue;
   isEditName.value = false;
@@ -263,18 +290,6 @@ const mousemove = (e: MouseEvent) => {
     scrollLeft.value = e.clientX;
   }
 };
-const onCardDrop = (event: any) => {
-  emits("drop", event);
-};
-const getCardPayload = () => {
-  return (index: number) => {
-    let arr = props.item.deals.filter((i) => i.is_drag);
-    if (!props.item.deals[index].is_drag) {
-      arr = [props.item.deals[index]];
-    }
-    return arr;
-  };
-};
 const getAll = () => {
   loading.value = true;
   dealsApi
@@ -286,17 +301,10 @@ const getAll = () => {
       loading.value = false;
     });
 };
-const dragStart = (e: {
-  isSource: boolean;
-  payload: DealStagesAttr["deals"];
-  willAcceptDrop: boolean;
-}) => {
-  selectedIds.value = e.payload.map((i) => i.id);
-  drag.value = true;
-};
-const dragEnd = () => {
-  drag.value = false;
-  selectedIds.value = [];
+const handleSelect = (key: number) => {
+  if (key) {
+    emit("changeStage", selectedIds.value, key, props.item.id);
+  }
 };
 watch(
   () => bottom.value,
@@ -309,6 +317,27 @@ watch(
 onMounted(() => {
   window.addEventListener("mouseup", mouseup);
   window.addEventListener("mousemove", mousemove);
+  if (props.stageList.length) {
+    optionsDropdown.value = props.stageList
+      .filter(({ id }) => id !== props.item.id)
+      .map(({ id, name, color }) => ({
+        label: name,
+        key: id,
+        icon: () =>
+          h(NIcon, { color }, { default: () => h(ArrowHookUpRight24Filled) }),
+      }));
+  }
+
+  optionsDropdown.value.push(
+    {
+      type: "divider",
+      key: 0,
+    },
+    {
+      label: "Delete",
+      key: -1,
+    }
+  );
 });
 onUnmounted(() => {
   window.removeEventListener("mouseup", mouseup);
@@ -348,5 +377,26 @@ onUnmounted(() => {
 }
 .status--item-header {
   height: calc(100% - 10px);
+}
+/*  */
+.deals-move,
+.deals-enter-active,
+.deals-leave-active {
+  transition: all 0.5s ease-in-out;
+  transform-origin: center top;
+}
+
+/* 2. declare enter from and leave to state */
+.deals-enter-from,
+.deals-leave-to {
+  opacity: 0;
+  transform: scale(0.01);
+}
+
+/* 3. ensure leaving items are taken out of layout flow so that moving
+      animations can be calculated correctly. */
+.deals-leave-active {
+  width: 100%;
+  position: absolute;
 }
 </style>

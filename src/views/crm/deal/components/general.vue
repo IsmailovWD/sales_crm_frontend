@@ -27,7 +27,7 @@ import {
 import type { FormRules } from "./fields";
 
 type Props = {
-  formValue: Omit<DealAttr, "id">;
+  formValue: Partial<DealAttr>;
   rules?: FormRules;
 };
 

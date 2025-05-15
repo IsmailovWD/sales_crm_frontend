@@ -43,10 +43,10 @@
               :key="index"
               :index="index + 1"
               :item="item"
-              @delete="props.formValue.orders.splice(index, 1)"
+              @delete="props.formValue.orders?.splice(index, 1)"
               @change:summa="changeSumma"
             ></items>
-            <tr v-if="!props.formValue.orders.length">
+            <tr v-if="!props.formValue.orders?.length">
               <td colspan="5" style="padding: 50px 10px">
                 <n-empty></n-empty>
               </td>
@@ -57,7 +57,7 @@
       <div class="total">
         <div class="currency">
           {{ t("products.total_summa") }}:
-          {{ $formatCurrency(props.formValue.summa) }}
+          {{ $formatCurrency(props.formValue.summa!) }}
         </div>
       </div>
     </n-card>
@@ -72,13 +72,13 @@ import { Items } from "./product";
 import type { FormRules } from "./fields";
 
 type Props = {
-  formValue: Omit<DealAttr, "id">;
+  formValue: Partial<DealAttr>;
   rules?: FormRules;
 };
 const { t } = useI18n();
 const props = defineProps<Props>();
 const addItem = () => {
-  props.formValue.orders.push({
+  props.formValue.orders?.push({
     product_id: null,
     price: 0,
     quantity: 0,
@@ -86,7 +86,7 @@ const addItem = () => {
   });
 };
 const changeSumma = () => {
-  props.formValue.summa = props.formValue.orders.reduce(
+  props.formValue.summa = props.formValue.orders?.reduce(
     (acc, item) => acc + item.summa,
     0
   );

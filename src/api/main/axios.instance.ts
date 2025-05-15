@@ -15,6 +15,7 @@ const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
+    const hostname = window.location.hostname;
     if (token || config.url === "/api/v1/auth/signin") {
       config.headers.Authorization = `Bearer ${token}`;
     } else {
@@ -23,6 +24,8 @@ api.interceptors.request.use(
     }
     config.headers["Accept-Language"] =
       localStorage.getItem("language") || "uz";
+
+    config.headers["x-tenant-id"] = /*"demo.uz"*/ hostname;
     return config;
   },
   (error) => Promise.reject(error)

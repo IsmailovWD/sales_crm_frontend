@@ -16,7 +16,6 @@
           :default-value="defaultTabs"
           type="line"
           animated
-          :on-update:value="changeTab"
           v-model:value="activeTab"
         >
           <n-tab-pane
@@ -82,10 +81,11 @@ import { validatePhoneNumber } from "@/utils/phoneCountries";
 import { useEventBus } from "@/eventBus";
 import { dealsApi } from "@/api/main/actions/dealsApi";
 import type { FormRules } from "naive-ui";
+import { useDataStore } from "@/stores/data";
 
 type Props = {
   type: "create" | "update";
-  formValue: Omit<DealAttr, "id"> | DealAttr;
+  formValue: Partial<DealAttr>;
 };
 const footerRef = ref<HTMLElement>();
 const { t } = useI18n();
@@ -94,8 +94,9 @@ const emits = defineEmits(["onAfterCreate", "onAfterUpdate"]);
 const router = useRouter();
 const route = useRoute();
 const loading = ref(false);
-const backupFormValue = ref<Omit<DealAttr, "id"> | DealAttr>();
+const backupFormValue = ref<Partial<DealAttr>>();
 
+const dataStore = useDataStore();
 const eventBus = useEventBus();
 const defaultTabs = computed(() => {
   return props.type === "update"
@@ -107,76 +108,68 @@ const defaultTabs = computed(() => {
 const activeTab = ref(defaultTabs.value);
 const formRef = ref<FormInst>();
 
-const generateRules = (): FormRules => {
-  const baseRules: FormRules = {
-    deal_stage_id: {
-      required: true,
-      message: () => {
-        return t("input_errors.{name} is required", { name: t("crm.stage") });
-      },
-      trigger: ["blur", "change"],
-      type: "number",
-    },
+function generateRules(t: any, formValue: Partial<DealAttr>): FormRules {
+  const rules: FormRules = {
+    stage_id: requiredNumberRule(t("crm.stage")),
     contact: {
+      name: requiredStringRule(t("clients.name")),
       phone_number: {
         required: true,
         trigger: ["blur", "input"],
-        validator: (rule, v) => {
-          return validatePhoneNumber(
+        validator: (rule, v) =>
+          validatePhoneNumber(
             rule,
-            props.formValue.contact.phone_number,
-            props.formValue.contact.country_code,
+            formValue.contact?.phone_number!,
+            formValue.contact?.country_code!,
             t
-          );
-        },
-      },
-      name: {
-        required: true,
-        message: () =>
-          t("input_errors.{name} is required", { name: t("clients.name") }),
-        trigger: ["blur", "change"],
-        type: "string",
+          ),
       },
     },
   };
 
-  props.formValue.orders.forEach((_, index) => {
-    baseRules[`orders[${index}].product_id`] = {
-      required: true,
-      message: () =>
-        t("input_errors.{name} is required", { name: t("crm.product") }),
-      trigger: ["blur", "change"],
-      type: "number",
-    };
-    baseRules[`orders[${index}].quantity`] = {
-      required: true,
-      message: () =>
-        t("input_errors.{name} is required", { name: t("crm.quantity") }),
-      type: "number",
-      trigger: ["blur", "change"],
-    };
-    baseRules[`orders[${index}].price`] = {
-      required: true,
-      message: () =>
-        t("input_errors.{name} is required", { name: t("crm.price") }),
-      type: "number",
-      trigger: ["blur", "change"],
-    };
+  formValue.orders?.forEach((_, i) => {
+    rules[`orders[${i}].product_id`] = requiredNumberRule(t("crm.product"));
+    rules[`orders[${i}].quantity`] = requiredNumberRule(t("crm.quantity"));
+    rules[`orders[${i}].price`] = requiredNumberRule(t("crm.price"));
   });
 
-  return baseRules;
-};
+  if (formValue.stage?.key === "accepted") {
+    rules.assigned_user_id = requiredNumberRule(t("crm.user"));
+  }
 
-const rules = computed(() => generateRules());
-const changeTab = (name: string) => {
-  // router.push({ hash: `#${name}` });
-};
+  if (formValue.stage?.key === "delivering") {
+    rules.delivery_date = requiredNumberRule(t("crm.delivery_date"));
+    rules.deliveryman_id = requiredNumberRule(t("crm.delivery"));
+  }
+
+  return rules;
+}
+function requiredNumberRule(name: string): FormRules[string] {
+  return {
+    required: true,
+    message: () => `📌 ${name} is required`,
+    trigger: ["blur", "change"],
+    type: "number",
+  };
+}
+
+function requiredStringRule(name: string): FormRules[string] {
+  return {
+    required: true,
+    message: () => `📌 ${name} is required`,
+    trigger: ["blur", "change"],
+    type: "string",
+  };
+}
+const rules = ref<FormRules>(generateRules(t, props.formValue));
+
 const createOrEditDeal = () => {
   formRef.value?.validate((errors) => {
     if (!errors) {
       loading.value = true;
-      props.formValue.contact.phone_number =
-        props.formValue.contact.phone_number.replace(/\D/g, "");
+      if (props.formValue.contact?.phone_number)
+        props.formValue["contact"]["phone_number"] =
+          props.formValue.contact?.phone_number.replace(/\D/g, "");
       if (props.type == "create") {
         dealsApi
           .create(props.formValue)
@@ -194,7 +187,11 @@ const createOrEditDeal = () => {
           .finally(() => {
             loading.value = false;
           });
-      } else if (props.type == "update" && "id" in props.formValue) {
+      } else if (
+        props.type == "update" &&
+        "id" in props.formValue &&
+        props.formValue.id
+      ) {
         dealsApi
           .update(props.formValue.id, props.formValue)
           .then(() => {
@@ -236,9 +233,16 @@ watch(
   (newVal, oldVal) => {
     if (footerRef.value && !footerRef.value.className.includes("edit"))
       footerRef.value.classList.add("edit");
+    changeStage(newVal.stage_id!);
   },
   { deep: true }
 );
+const changeStage = (stageId: number) => {
+  props.formValue.stage = dataStore.cache.crmStagesList.data.find(
+    (item) => item.id == stageId
+  );
+  rules.value = generateRules(t, props.formValue);
+};
 onMounted(() => {
   backupFormValue.value = { ...props.formValue };
   if (props.type == "create") {

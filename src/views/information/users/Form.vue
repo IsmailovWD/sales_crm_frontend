@@ -94,7 +94,7 @@ const rules: FormRules = {
       t("input_errors.{name} is required", { name: t("user.username") }),
   },
   password: {
-    required: true,
+    required: "id" in props.formValue ? false : true,
     trigger: ["blur"],
     min: 6,
     message: () =>

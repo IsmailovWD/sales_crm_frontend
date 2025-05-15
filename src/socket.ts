@@ -6,14 +6,14 @@ const transports = ["websocket", "polling"];
 const testSocket: Socket = io(`${baseUrl}/chat`, {
   withCredentials: true,
   autoConnect: false,
-  auth: { token: token || undefined },
+  auth: { token: token || undefined, "x-tenant-id": window.location.hostname },
   transports,
 });
 
 const crmSocket: Socket = io(`${baseUrl}/crm`, {
   withCredentials: true,
   autoConnect: false,
-  auth: { token: token || undefined },
+  auth: { token: token || undefined, "x-tenant-id": window.location.hostname },
   transports,
 });
 

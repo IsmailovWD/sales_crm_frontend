@@ -18,7 +18,7 @@
       <n-divider style="margin: 10px 0"></n-divider>
       <n-form-item
         :label="t('crm.delivery_date')"
-        path="title"
+        path="delivery_date"
         :theme-overrides="{
           labelPaddingVertical: '0px',
           labelHeightSmall: '25px',
@@ -74,29 +74,60 @@
       >
         <Map></Map>
       </n-form-item> -->
+      <n-form-item
+        :label="t('crm.delivery')"
+        path="deliveryman_id"
+        :theme-overrides="{
+          labelPaddingVertical: '0px',
+          labelHeightSmall: '25px',
+        }"
+      >
+        <SINGLE_VALUE_SELECT_FIELD
+          :is-edit="isEdit"
+          :key-value="'deliveryman_id'"
+          :model="props.formValue"
+          :options="data"
+          :placeholder="t('crm.delivery')"
+          :text-style="{ fontSize: '16px' }"
+        ></SINGLE_VALUE_SELECT_FIELD>
+      </n-form-item>
     </n-card>
   </div>
 </template>
 <script setup lang="ts">
 import type { DealAttr } from "@/api/main/types";
 import { useI18n } from "vue-i18n";
-import { TIMESTAMP_FIELD, REGION_FIELD, TEXT_FIELD } from "../fields";
+import {
+  TIMESTAMP_FIELD,
+  REGION_FIELD,
+  TEXT_FIELD,
+  SINGLE_VALUE_SELECT_FIELD,
+} from "../fields";
 import { NCard, NText, NButton, NDivider, NFormItem } from "naive-ui";
 import Map from "@/components/Map.vue";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useEventBus } from "@/eventBus";
+import { useDataStore } from "@/stores/data";
 
+const data = ref<any>([]);
+const dataStore = useDataStore();
 const eventBus = useEventBus();
 const { t } = useI18n();
 
 type Props = {
-  formValue: DealAttr | Omit<DealAttr, "id">;
+  formValue: Partial<DealAttr>;
 };
 const props = defineProps<Props>();
 const isEdit = ref("id" in props.formValue ? false : true);
 
 eventBus.$on("edit-cancel", () => {
   isEdit.value = false;
+});
+onMounted(async () => {
+  data.value = (await dataStore.getData("deliveryManList")).map((item) => ({
+    id: item.id,
+    name: item.name,
+  }));
 });
 </script>
 <style scoped>

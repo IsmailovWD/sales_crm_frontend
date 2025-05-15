@@ -57,7 +57,7 @@ import {
 import { onMounted, ref } from "vue";
 
 type Props = {
-  formValue: Omit<DealAttr, "id"> | DealAttr;
+  formValue: Partial<DealAttr>;
 };
 const CONSTANTS: { PAGE: number; readonly PAGESIZE: number; ENDING: boolean } =
   {

@@ -18,7 +18,7 @@
       <n-divider style="margin: 10px 0"></n-divider>
       <n-form-item
         :label="t('crm.user')"
-        path="user_id"
+        path="assigned_user_id"
         :theme-overrides="{
           labelPaddingVertical: '0px',
           labelHeightSmall: '25px',
@@ -26,10 +26,10 @@
       >
         <SINGLE_VALUE_SELECT_FIELD
           :is-edit="isEdit"
-          :key-value="'deal_stage_id'"
+          :key-value="'assigned_user_id'"
           :model="props.formValue"
           :options="data"
-          :placeholder="t('crm.stage')"
+          :placeholder="t('crm.user')"
           :text-style="{ fontSize: '16px' }"
         ></SINGLE_VALUE_SELECT_FIELD>
       </n-form-item>
@@ -60,7 +60,7 @@ const dataStore = useDataStore();
 const { t } = useI18n();
 
 type Props = {
-  formValue: DealAttr | Omit<DealAttr, "id">;
+  formValue: Partial<DealAttr>;
   rules?: FormRules;
 };
 const props = defineProps<Props>();

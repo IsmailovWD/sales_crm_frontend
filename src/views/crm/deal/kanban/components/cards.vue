@@ -29,21 +29,58 @@
       </div>
     </div>
     <div class="kanban-card-actions">
-      <input type="checkbox" v-model="props.item.is_drag" @dblclick.stop />
+      <n-dropdown
+        :options="optionsDropdown"
+        :trigger="'click'"
+        :placement="'right-start'"
+        @select="handleSelect"
+      >
+        <div
+          style="
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <n-icon size="18">
+            <MoreHorizontal24Filled></MoreHorizontal24Filled>
+          </n-icon>
+        </div>
+      </n-dropdown>
+      <input type="checkbox" v-model="props.item.is_checked" @dblclick.stop />
       <n-badge color="#353535" :show-zero="true" :value="0" />
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import type { DealAttr } from "@/api/main/types";
-import { NTag, NA, NBadge } from "naive-ui";
+import type { DealAttr, DealStagesAttr } from "@/api/main/types";
+import {
+  NTag,
+  NA,
+  NBadge,
+  NIcon,
+  NDropdown,
+  type DropdownOption,
+} from "naive-ui";
 import { useRouter } from "vue-router";
+import {
+  MoreHorizontal24Filled,
+  ArrowHookUpLeft24Filled,
+  ArrowHookUpRight24Filled,
+} from "@vicons/fluent";
+import { h, onMounted, ref } from "vue";
+
 type Props = {
   item: DealAttr;
+  stageList: DealStagesAttr[];
 };
-
+const emit = defineEmits({
+  changeStage: (ids: number[], newStageId: number, oldStageId: number) => true,
+});
 const router = useRouter();
 const props = defineProps<Props>();
+const optionsDropdown = ref<DropdownOption[]>([]);
 const copyLead = () => {
   if (props.item.title) navigator.clipboard.writeText(props.item.title);
   else if (props.item.id)
@@ -57,6 +94,33 @@ const edit = () => {
     },
   });
 };
+const handleSelect = (key: number) => {
+  if (key) {
+    emit("changeStage", [props.item.id], key, props.item.stage_id!);
+  }
+};
+onMounted(async () => {
+  if (props.stageList.length) {
+    optionsDropdown.value = props.stageList
+      .filter(({ id }) => id !== props.item.stage_id)
+      .map(({ id, name, color }) => ({
+        label: name,
+        key: id,
+        icon: () =>
+          h(NIcon, { color }, { default: () => h(ArrowHookUpRight24Filled) }),
+      }));
+  }
+  optionsDropdown.value.push(
+    {
+      type: "divider",
+      key: 0,
+    },
+    {
+      label: "Delete",
+      key: -1,
+    }
+  );
+});
 </script>
 <style lang="scss" scoped>
 .kanban-card {

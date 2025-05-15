@@ -50,7 +50,7 @@
       </n-form-item>
       <n-form-item
         :label="t('crm.stage')"
-        path="deal_stage_id"
+        path="stage_id"
         :theme-overrides="{
           labelPaddingVertical: '0px',
           labelHeightSmall: '25px',
@@ -58,7 +58,7 @@
       >
         <SINGLE_VALUE_SELECT_FIELD
           :is-edit="isEdit"
-          :key-value="'deal_stage_id'"
+          :key-value="'stage_id'"
           :model="props.formValue"
           :options="data"
           :placeholder="t('crm.stage')"
@@ -97,7 +97,7 @@ const dataStore = useDataStore();
 const { t } = useI18n();
 
 type Props = {
-  formValue: DealAttr | Omit<DealAttr, "id">;
+  formValue: Partial<DealAttr>;
   rules?: FormRules;
 };
 const props = defineProps<Props>();

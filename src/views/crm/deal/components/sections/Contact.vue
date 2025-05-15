@@ -42,7 +42,7 @@
         <TEXT_FIELD
           :is-edit="isEdit"
           size="medium"
-          :model="props.formValue.contact"
+          :model="props.formValue.contact!"
           :keyValue="'name'"
           :label="t('clients.name')"
         ></TEXT_FIELD>
@@ -60,7 +60,7 @@ import { useEventBus } from "@/eventBus";
 const { t } = useI18n();
 
 type Props = {
-  formValue: DealAttr | Omit<DealAttr, "id">;
+  formValue: Partial<DealAttr>;
 };
 const eventBus = useEventBus();
 const props = defineProps<Props>();

@@ -31,9 +31,14 @@
                 :key="index"
               >
                 <statusVue
-                  @drop="(e) => onCardDrop(item.id, e)"
+                  @changeStage="changeStage"
                   :item="item"
                   :index="index"
+                  :stage-list="
+                    statusList.map(({ deals, totalCount, ...item }) => ({
+                      ...item,
+                    }))
+                  "
                 ></statusVue>
               </Draggable>
             </Container>
@@ -75,6 +80,7 @@ import { crmSocket } from "@/socket";
 import { useSocket } from "@/composables/useSocket";
 import type { DealAttr } from "@/api/main/types";
 import { set } from "@vueuse/core";
+import { dealsApi } from "@/api/main/actions/dealsApi";
 
 useSocket(
   crmSocket,
@@ -225,6 +231,44 @@ const changeOrder = () => {
 const isEmpty = computed(
   () => statusList.value.reduce((a, b) => a + b.deals.length, 0) === 0
 );
+const changeStage = (ids: number[], newStageId: number, oldStageId: number) => {
+  showSpin.value = true;
+
+  dealsApi
+    .changeStageByIds(ids, newStageId, oldStageId)
+    .then(() => {
+      const removedIndex = statusList.value.findIndex(
+        (item) => item.id === oldStageId
+      );
+      const addedIndex = statusList.value.findIndex(
+        (item) => item.id === newStageId
+      );
+
+      if (removedIndex === -1 || addedIndex === -1) return;
+
+      const removedStage = statusList.value[removedIndex];
+      const addedStage = statusList.value[addedIndex];
+
+      const movingDeals = removedStage.deals
+        .filter((deal) => ids.includes(deal.id))
+        .map((item) => ({
+          ...item,
+          stage_id: addedStage.id,
+          is_checked: false,
+        }));
+
+      removedStage.deals = removedStage.deals.filter(
+        (deal) => !ids.includes(deal.id)
+      );
+      removedStage.totalCount -= movingDeals.length;
+
+      addedStage.deals.unshift(...movingDeals);
+      addedStage.totalCount += movingDeals.length;
+    })
+    .finally(() => {
+      showSpin.value = false;
+    });
+};
 
 eventBus.$on("changeScrollTop", changeHeight);
 onMounted(() => {
